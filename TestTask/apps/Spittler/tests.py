@@ -1,16 +1,21 @@
+# coding: utf-8
 """
-This file demonstrates writing tests using the unittest module. These will pass
-when you run "manage.py test".
-
-Replace this with more appropriate tests for your application.
+    Spittler Application Tests
 """
 
-from django.test import TestCase
+from django_webtest import WebTest
 
 
-class SimpleTest(TestCase):
-    def test_basic_addition(self):
-        """
-        Tests that 1 + 1 always equals 2.
-        """
-        self.assertEqual(1 + 1, 2)
+class SpittlerTest(WebTest):
+    fixtures = [u'spittlers.json']
+
+    def test_list_spittles(self):
+        """ Test spittles listing page functionality """
+
+        response = self.app.get('/')
+
+        self.assertEqual(response.status_code, 200, msg=u'Response is not OK')
+        self.assertTemplateUsed(response, u'spittles.html')
+        assert u'first spittle' in response
+        assert u'second spittle' in response
+
