@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block title %} List - {{ block.super }} {% endblock %}
+
+{% block header %}
+    <div class="container">
+    <div class="hero-unit">
+        <h1>Spittles List</h1>
+        <p>Spittles are short notices that can be added to site.</p>
+    </div>
+{% endblock %}
+
+{% block content %}
+    <dl>
+        {% for spittle in spittles %}
+            <dt>{{ spittle.title }}</dt>
+            <dd>{{ spittle.message }}<br/></dd>
+        {% empty %}
+            <dt>
+                No spittles as for yet.
+            </dt>
+        {% endfor %}
+    </dl>
+{% endblock %}
+
+{% block footer %}
+    <br />
+    <hr />
+    <footer>
+        <p>&copy; Test Application for 7Web</p>
+    </footer>
+    </div>
+{% endblock %}

@@ -5,7 +5,7 @@ TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (
     ('Alex', 'OlexandrVorona@gmail.com'),
-    )
+)
 
 MANAGERS = ADMINS
 
@@ -38,26 +38,25 @@ MEDIA_ROOT = os.path.join(PROJECT_DIR, 'media')
 
 MEDIA_URL = 'http://localhost/media/'
 
-STATIC_ROOT = os.path.join(PROJECT_DIR, 'static')
-
 LOGIN_REDIRECT_URL = '/'
 
-STATIC_URL = 'http://localhost/static/'
+STATIC_URL = '/TestTask/static/'
 
 STATICFILES_DIRS = (
+    os.path.join(PROJECT_DIR, 'static'),
 )
 
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
-    )
+)
 
 SECRET_KEY = 'y+mmyo9@*%z9@xwh^d%a&amp;8@so3*u!wcgf%6i(nw19os=e=*5z='
 
 TEMPLATE_LOADERS = (
     'django.template.loaders.filesystem.Loader',
     'django.template.loaders.app_directories.Loader',
-    )
+)
 
 MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',
@@ -65,7 +64,7 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
-    )
+)
 
 ROOT_URLCONF = 'TestTask.urls'
 
@@ -73,7 +72,7 @@ WSGI_APPLICATION = 'TestTask.wsgi.application'
 
 TEMPLATE_DIRS = (
     os.path.join(PROJECT_DIR, 'templates'),
-    )
+)
 
 INSTALLED_APPS = (
     'django.contrib.auth',
@@ -84,7 +83,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'django.contrib.admin',
     'TestTask.apps.Spittler',
-    )
+)
 
 LOGGING = {
     'version': 1,
@@ -109,3 +108,4 @@ LOGGING = {
         },
     }
 }
+
