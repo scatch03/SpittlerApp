@@ -1,5 +1,7 @@
 {% extends "base.html" %}
 
+{% load render_spittle %}
+
 {% block title %} List - {{ block.super }} {% endblock %}
 
 {% block header %}
@@ -11,16 +13,13 @@
 {% endblock %}
 
 {% block content %}
-    <dl>
-        {% for spittle in spittles %}
-            <dt>{{ spittle.title }}</dt>
-            <dd>{{ spittle.message }}<br/></dd>
+        {% for identity in identities %}
+            {% render_spittle identity %}
         {% empty %}
             <dt>
                 No spittles as for yet.
             </dt>
         {% endfor %}
-    </dl>
 {% endblock %}
 
 {% block footer %}

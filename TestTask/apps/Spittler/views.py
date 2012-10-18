@@ -11,9 +11,9 @@ from TestTask.apps.Spittler.models import Spittle
 def list_spittles(request):
     """ Lists all current messages(i.e. spittles) on page """
 
-    spittles = Spittle.objects.all()
+    identities = Spittle.objects.values_list('_slug', flat=True)
     context = {
-        'spittles': spittles,
+        'identities': identities,
     }
     return render_to_response('spittles.html',
                               RequestContext(request, context)
