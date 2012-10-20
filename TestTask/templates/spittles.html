@@ -5,11 +5,8 @@
 {% block title %} List - {{ block.super }} {% endblock %}
 
 {% block header %}
-    <div class="container">
-    <div class="hero-unit">
-        <h1>Spittles List</h1>
-        <p>Spittles are short notices that can be added to site.</p>
-    </div>
+    <h1>Spittles List</h1>
+    <p>Spittles are short notices that can be added to site.</p>
 {% endblock %}
 
 {% block content %}
@@ -20,13 +17,4 @@
                 No spittles as for yet.
             </dt>
         {% endfor %}
-{% endblock %}
-
-{% block footer %}
-    <br />
-    <hr />
-    <footer>
-        <p>&copy; Test Application for 7Web</p>
-    </footer>
-    </div>
 {% endblock %}

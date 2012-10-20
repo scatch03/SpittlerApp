@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block title %} Add - {{ block.super }} {% endblock %}
+
+{% block header %}
+    <h1>Add Spittle</h1>
+    <p>Here You can add a spittle to your current list.</p>
+{% endblock %}
+
+{% block content %}
+    <form action="/add/" method="post">{% csrf_token %}
+        <legend>New Spittle: </legend>
+        {{ form.as_p }}
+        <input class="btn btn-primar" type="submit" value="Submit" />
+    </form>
+
+{% endblock %}

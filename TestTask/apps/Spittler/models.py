@@ -10,7 +10,8 @@ from TestTask.libs.utils import slug_generator
 class Spittle(models.Model):
     """ Model class for representing simple message (i.e spittle) """
 
-    _text = models.TextField(null=False, default='')
+    _text = models.TextField(null=False,
+                             default='')
     _slug = models.SlugField(db_index=True,
                              unique=True,
                              default=slug_generator)
