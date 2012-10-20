@@ -38,5 +38,5 @@ def add_spittle(request):
         form = AddSpittleForm()
 
     return render_to_response('add_spittle.html',
-                              RequestContext(request, {'form':form})
+                              RequestContext(request, {'form': form})
                               )
