@@ -9,10 +9,10 @@ from TestTask.apps.Spittler.models import Spittle
 
 
 class SpittlerTest(WebTest):
-    fixtures = [u'spittlers.json']
+    fixtures = [u'spittles.json']
 
-    def test_list_spittles(self):
-        """ Test spittles listing page functionality """
+    def testListSpittle(self):
+        """ Test spittle listing page functionality """
 
         response = self.app.get('/')
 
@@ -23,7 +23,7 @@ class SpittlerTest(WebTest):
 
 
 class TemplateTagsTestCase(WebTest):
-    fixtures = [u'spittlers.json']
+    fixtures = [u'spittles.json']
 
     def setUp(self):
         self.spittles = Spittle.objects.all()
@@ -42,7 +42,7 @@ class TemplateTagsTestCase(WebTest):
 
 
 class AddSpittleTestCase(WebTest):
-    fixtures = [u'spittlers.json']
+    fixtures = [u'spittles.json']
 
     def testAddSpittle(self):
         """ Test spittle adding functionality """
@@ -70,4 +70,36 @@ class AddSpittleTestCase(WebTest):
         assert u'required' not in result_page
         assert u'test_case_subject' in result_page
         assert u'Long enough' in result_page
+
+
+class CountContextProcessorTest(WebTest):
+    fixtures = [u'spittles.json']
+
+    def setUp(self):
+        self.count = Spittle.objects.all().count()
+
+    def testCountSpittle(self):
+        """ Test spittle count functionality """
+
+        response = self.app.get('/')
+
+        self.assertEqual(response.context['spittle_count'], self.count)
+        assert self.count in response
+
+        response = self.app.get('/add/')
+
+        self.assertEqual(response.context['spittle_count'], self.count)
+        assert self.count in response
+
+        spittle = Spittle()
+        spittle.title = u'Title'
+        spittle.message = u'New short spittle!'
+        Spittle.save(spittle)
+
+        response = self.app.get('/')
+
+        self.assertEqual(response.context['spittle_count'], self.count + 1)
+        assert self.count + 1 in response
+
+
 
