@@ -41,4 +41,33 @@ class TemplateTagsTestCase(WebTest):
             assert spittle.message in value
 
 
+class AddSpittleTestCase(WebTest):
+    fixtures = [u'spittlers.json']
+
+    def testAddSpittle(self):
+        """ Test spittle adding functionality """
+
+        page = self.app.get('/add/')
+
+        add_form = page.form
+        add_form['subject'] = ''
+        add_form['message'] = ''
+        result_page = add_form.submit()
+        assert u'is required' in result_page
+
+        add_form = page.form
+        add_form['subject'] = 'test_case_subject'
+        add_form['message'] = 'Short'
+        result_page = add_form.submit()
+        assert u'at least 10' in result_page
+        assert u'is required' not in result_page
+
+        add_form = page.form
+        add_form['subject'] = 'test_case_subject'
+        add_form['message'] = 'Long enough'
+        result_page = add_form.submit().follow()
+        assert u'at least 10' not in result_page
+        assert u'required' not in result_page
+        assert u'test_case_subject' in result_page
+        assert u'Long enough' in result_page
 
