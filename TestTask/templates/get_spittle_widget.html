@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+
+{% block title %} Widget - {{ block.super }} {% endblock %}
+
+{% block header %}
+    <h1>Spittle Displaying Widget</h1>
+    <p>Here You can get widget for displaying spittles on Your site.</p>
+{% endblock %}
+
+{% block content %}
+    <p>
+        Spittler widget allows You to consume information from Spittler app and make use of it in Your site.
+        Given component is highly customisable and gives means to configure both retrieval, displaying and integration
+        of spittle messages. As for now widget allows retrieval only of one random message at a time.
+    </p>
+    <p>
+        To get started, download widget code with button below. Add it to Your site. Widget makes use of jQuery
+        library, so You may need to add it as well(using Google CDN might be a great choice). First You may want
+        to create configuration object:
+        <blockquote>
+        <xmp>
+        var config = {
+                timeout: 5000,
+                container: 'new',
+                transform: function(spittle){
+                              return spittle.title + ': ' + spittle.message;
+                },
+                callback: function(widget){
+                              alert('callback!');
+                }
+        }
+        </xmp>
+        <small>Example configuration of spittle widget</small>
+        </blockquote>
+        Object spittle, being passed into transform function has only two fields: <b>title</b> and <b>message</b> of
+        spittle message that was received.<br />
+        Configurable parameters are:
+        <dl>
+          <dt>timeout</dt>
+          <dd>
+              Period of spittle message retrieval given in milliseconds.
+              Default value - <em>5000</em>.
+          </dd>
+          <dt>container</dt>
+          <dd>
+              Id of DOM element where you want spittle to be mounted.
+              Default value - <em>spittle-container</em>.
+          </dd>
+          <dt>transform</dt>
+          <dd>
+              Function that takes single spittle object and returns its HTML representation.
+              Default -
+              <blockquote>
+                  <em><h5>spittle.title</h5><p>spittle.message</p></em>
+              </blockquote>
+          </dd>
+          <dt>callback</dt>
+          <dd>Function being called after request to Spittler app was performed.
+              Takes current widget object as first argument.
+              Default implementation - <em>None</em>.
+          </dd>
+        </dl>
+    </p>
+    <p>
+        To launch spittle displaying:
+    <blockquote>
+        <xmp>
+            new SpittleWidget(config).launch();
+        </xmp>
+        <small>Launching widget to work</small>
+    </blockquote>
+    </p>
+    <hr />
+    <form action="/download/" method="post">{% csrf_token %}
+        <button class="btn btn-small btn-primary" type="submit">Download Widget</button>
+    </form>
+{% endblock %}

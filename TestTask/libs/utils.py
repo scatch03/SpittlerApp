@@ -17,3 +17,7 @@ def slug_generator():
         current_date.minute, current_date.second,
         random.randint(0, 999)
     )
+
+
+def get_protocol(request):
+    return 'https' if request.is_secure() else 'http'

@@ -55,6 +55,12 @@ class Spittle(models.Model):
     def __unicode__(self):
         return u'%s : %s' % (self.title, self.message)
 
+    def get_public_representation(self):
+        return {
+            'title': self.title,
+            'message': self.message,
+        }
+
     class Meta:
         verbose_name_plural = u'Spittles'
 

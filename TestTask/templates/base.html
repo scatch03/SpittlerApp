@@ -4,6 +4,7 @@
     <title>{% block title %} Spittler {% endblock %}</title>
     <link rel="stylesheet" type="text/css" href="/TestTask/static/bootstrap/css/bootstrap.min.css">
     <script src="/TestTask/static/bootstrap/js/bootstrap.min.js" type="text/javascript" ></script>
+    <script src="/TestTask/static/spittler/SpittleWidget.js" type="text/javascript" ></script>
     <script src="http://code.jquery.com/jquery-latest.js"></script>
 </head>
 <body>
@@ -24,7 +25,13 @@
                         <a href="{% url add_spittle %}">Add</a>
                     </li>
                     <li class="">
+                        <a href="{% url get_widget %}">Widget</a>
+                    </li>
+                    <li class="">
                         <a href="#" ><i class="icon-tasks icon-white"></i>{{ spittle_count }}</a>
+                    </li>
+                    <li class="">
+                        <a href="#" style="margin:0 0 0 50px;"><i class="icon-pencil icon-white">&nbsp;</i><span id="widget-placeholder"></span></a>
                     </li>
                 </ul>
             </div>
@@ -49,5 +56,18 @@
         </footer>
         </div>
     {% endblock %}
+
+    <script>
+        $(function(){
+            var config = {
+                container:'widget-placeholder',
+                transform: function(spittle){
+                    return spittle.title + ': '+spittle.message;
+                }
+            };
+            new SpittleWidget(config).launch();
+        });
+    </script>
+
 </body>
 </html>
