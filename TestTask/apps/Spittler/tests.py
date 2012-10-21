@@ -102,4 +102,56 @@ class CountContextProcessorTest(WebTest):
         assert self.count + 1 in response
 
 
+class WidgetTest(WebTest):
+    fixtures = [u'spittles.json']
+
+    def setUp(self):
+        self.spittle = Spittle.objects.all()
+
+    def testDownload(self):
+        """ Test widget download functionality """
+
+        response = self.app.get('/download/')
+
+        self.assertEqual(response.status_code, 200, msg=u'Download is not OK')
+        self.assertTrue(len(response.content) > 0)
+
+    def testWidget(self):
+        """ Test widget functionality """
+
+        response = self.app.get('/widget/')
+
+        self.assertTrue(self.spittle[0].title in response
+                        or self.spittle[1].title in response)
+
+        response = self.app.get('/add/')
+
+        self.assertTrue(self.spittle[0].title in response
+                        or self.spittle[1].title in response)
+
+
+class RestAPITest(WebTest):
+    fixtures = [u'spittles.json']
+
+    def setUp(self):
+        self.spittle = Spittle.objects.all()
+
+    def randomSpittleCall(self):
+        """ Test REST get random spittle functionality """
+
+        response = self.app.get('/rest/spittle/')
+
+        self.assertEqual(response.status_code, 200, msg=u'REST spittle FAIL')
+        self.assertTrue(len(response.content) > 0)
+        self.assertTrue(self.spittle[0].title in response or
+                        self.spittle[1].title in response)
+        self.assertTrue(self.spittle[0].message in response or
+                        self.spittle[1].message in response)
+
+
+
+
+
+
+
 
