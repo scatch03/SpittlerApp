@@ -44,6 +44,9 @@ class TemplateTagsTestCase(WebTest):
 class AddSpittleTestCase(WebTest):
     fixtures = [u'spittles.json']
 
+    def setUp(self):
+        self.count = Spittle.objects.all().count()
+
     def testAddSpittle(self):
         """ Test spittle adding functionality """
 
@@ -56,20 +59,22 @@ class AddSpittleTestCase(WebTest):
         assert u'is required' in result_page
 
         add_form = page.form
-        add_form['subject'] = 'test_case_subject'
+        add_form['subject'] = 'Test case subject'
         add_form['message'] = 'Short'
         result_page = add_form.submit()
         assert u'at least 10' in result_page
         assert u'is required' not in result_page
 
         add_form = page.form
-        add_form['subject'] = 'test_case_subject'
+        add_form['subject'] = 'Test case subject'
         add_form['message'] = 'Long enough'
         result_page = add_form.submit().follow()
         assert u'at least 10' not in result_page
         assert u'required' not in result_page
-        assert u'test_case_subject' in result_page
+        assert u'Test case subject' in result_page
         assert u'Long enough' in result_page
+
+        assert Spittle.objects.all().count() - self.count == 1
 
 
 class CountContextProcessorTest(WebTest):
@@ -136,7 +141,7 @@ class RestAPITest(WebTest):
     def setUp(self):
         self.spittle = Spittle.objects.all()
 
-    def randomSpittleCall(self):
+    def testRandomSpittleCall(self):
         """ Test REST get random spittle functionality """
 
         response = self.app.get('/rest/spittle/')
@@ -147,6 +152,7 @@ class RestAPITest(WebTest):
                         self.spittle[1].title in response)
         self.assertTrue(self.spittle[0].message in response or
                         self.spittle[1].message in response)
+
 
 
 

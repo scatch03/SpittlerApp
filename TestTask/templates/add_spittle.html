@@ -8,10 +8,10 @@
 {% endblock %}
 
 {% block content %}
+    {{ form.media }}
     <form action="/add/" method="post">{% csrf_token %}
         <legend>New Spittle: </legend>
         {{ form.as_p }}
         <input class="btn btn-primar" type="submit" value="Submit" />
     </form>
-
 {% endblock %}
