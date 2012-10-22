@@ -9,9 +9,32 @@
 
 {% block content %}
     {{ form.media }}
-    <form action="/add/" method="post">{% csrf_token %}
-        <legend>New Spittle: </legend>
-        {{ form.as_p }}
-        <input class="btn btn-primar" type="submit" value="Submit" />
-    </form>
+        <form action="/add/" method="post">{% csrf_token %}
+            <legend>New Spittle: </legend>
+             <div id="spittle-form-container">
+                {{ form.as_p }}
+             </div>
+            <input class="btn btn-primar" type="submit" value="Submit" />
+        </form>
+
+    <script>
+        $(function(){
+            $("form").submit(function(){
+                $.ajax({
+                    data: $(this).serialize(),
+                    type: $(this).attr('method'),
+                    url: $(this).attr('action'),
+                    success: function(response) {
+                        var response = JSON.parse(response);
+                        var spittle_count_placeholder = $("#spittle-count");
+                        var spittle_count = parseInt(spittle_count_placeholder.html());
+                        spittle_count_placeholder.html(spittle_count + response.delta);
+                        $('#spittle-form-container').html(response.form);
+                        initSymbolCount();
+                    }
+                });
+                return false;
+            });
+        });
+    </script>
 {% endblock %}

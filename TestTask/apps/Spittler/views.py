@@ -5,15 +5,13 @@
 
 import json
 import os
-from django.core.urlresolvers import reverse
-from django.http import HttpResponseRedirect, HttpResponse
+from django.http import HttpResponse
 from django.shortcuts import render_to_response
 from django.template import RequestContext
-from django.core.servers.basehttp import FileWrapper
 from TestTask.apps.Spittler.forms.spittle import AddSpittleForm
 from TestTask.apps.Spittler.models import Spittle
 from TestTask.libs.utils import get_protocol
-from TestTask.settings import PROJECT_DIR, MEDIA_ROOT
+from TestTask.settings import MEDIA_ROOT
 
 
 def list_spittles(request):
@@ -38,7 +36,9 @@ def add_spittle(request):
             spittle.message = form.cleaned_data['message']
             spittle.title = form.cleaned_data['subject']
             Spittle.save(spittle)
-            return HttpResponseRedirect(reverse('list_spittles'))
+            return HttpResponse(json.dumps({'form': AddSpittleForm().as_p(),
+                                            'delta': 1}))
+        return HttpResponse(json.dumps({'form': form.as_p(), 'delta': 0}))
     else:
         form = AddSpittleForm()
 
@@ -66,6 +66,8 @@ def get_widget(request):
 
 
 def download_widget(request):
+    """ Gives ability to download spittle widget script """
+
     path = os.path.join(MEDIA_ROOT, 'spittler_widget.js')
     widget_file = open(path).read()
     widget_file = widget_file.replace('$$HOST$$', request.get_host())
