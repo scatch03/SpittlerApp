@@ -10,7 +10,8 @@ from django.shortcuts import render_to_response
 from django.template import RequestContext
 from TestTask.apps.Spittler.forms.spittle import AddSpittleForm
 from TestTask.apps.Spittler.models import Spittle
-from TestTask.libs.utils import get_protocol
+from TestTask.libs.utils import get_protocol, is_valid_image
+from TestTask.libs.utils import handle_uploaded_file
 from TestTask.settings import MEDIA_ROOT
 
 
@@ -30,15 +31,25 @@ def add_spittle(request):
     """ Adds spittle to current spittle list """
 
     if request.method == 'POST':
-        form = AddSpittleForm(request.POST)
+        form = AddSpittleForm(request.POST, request.FILES)
         if form.is_valid():
             spittle = Spittle()
             spittle.message = form.cleaned_data['message']
             spittle.title = form.cleaned_data['subject']
+            file = form.cleaned_data['file']
+            if file is not None and is_valid_image(file):
+                spittle.image = True
             Spittle.save(spittle)
-            return HttpResponse(json.dumps({'form': AddSpittleForm().as_p(),
-                                            'delta': 1}))
-        return HttpResponse(json.dumps({'form': form.as_p(), 'delta': 0}))
+            handle_uploaded_file(file, spittle.identity)
+            return render_to_response('add_spittle.html',
+                                      RequestContext(request,
+                                      {'form': AddSpittleForm(), 'delta': 1})
+                                      )
+
+        return render_to_response('add_spittle.html',
+                                  RequestContext(request,
+                                  {'form': form, 'delta': 0})
+                                  )
     else:
         form = AddSpittleForm()
 
@@ -77,5 +88,6 @@ def download_widget(request):
     response['Content-Disposition'] = 'attachment; filename=SpittleWidget.js'
 
     return response
+
 
 

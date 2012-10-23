@@ -12,3 +12,4 @@ class AddSpittleForm(forms.Form):
 
     subject = forms.CharField(max_length=120)
     message = forms.CharField(min_length=10, widget=SpittleTextarea())
+    file = forms.FileField(label='', required=False)

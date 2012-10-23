@@ -1,4 +1,11 @@
 <dl>
     <dt>{{ spittle.title|safe }}</dt>
-    <dd>{{ spittle.message|safe }}<br/></dd>
+    <dd>
+        {{ spittle.message|safe }}<br />
+        {% if spittle.image %}
+            <img class="img-rounded" src="/TestTask/static/images/{{ spittle.identity }}" />
+        {% endif %}
+        <hr />
+        <br/>
+    </dd>
 </dl>
