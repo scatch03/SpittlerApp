@@ -2,10 +2,11 @@
 """
     Spittler Application Tests
 """
-
+import os
 from django.template import Template, Context
 from django_webtest import WebTest
 from TestTask.apps.Spittler.models import Spittle
+from TestTask.settings import PROJECT_DIR
 
 
 class SpittlerTest(WebTest):
@@ -157,6 +158,48 @@ class RestAPITest(WebTest):
                         self.spittle[1].message in response)
 
 
+class ImageAttachmentTest(WebTest):
+    fixtures = [u'spittles.json']
+
+    def setUp(self):
+        Spittle.objects.all().delete()
+
+    def testImageAttached(self):
+        """ Testing image to message attachment functionality """
+
+        page = self.app.get('/add/')
+
+        add_form = page.form
+        add_form['subject'] = 'Testing image'
+        add_form['message'] = 'image attachment'
+        add_form['file'] = [os.path.join(PROJECT_DIR,
+                            'media/fbook_logo.png', )]
+
+        add_form.submit()
+
+        spittle = Spittle.objects.all()[0]
+        result_page = page = self.app.get('/')
+
+        assert  spittle.identity in result_page
+
+    def testNotImageAttached(self):
+        """ Testing when attached file is not image functionality """
+
+        page = self.app.get('/add/')
+
+        add_form = page.form
+        add_form['subject'] = 'Testing image'
+        add_form['message'] = 'image attachment'
+        add_form['file'] = [os.path.join(PROJECT_DIR,
+                            'media/not_an_image.txt', )]
+
+        add_form.submit()
+
+        spittle = Spittle.objects.all()
+        result_page = page = self.app.get('/')
+
+        assert spittle.count() == 1
+        assert  spittle[0].identity not in result_page
 
 
 
