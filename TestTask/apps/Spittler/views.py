@@ -1,6 +1,6 @@
 # coding: utf-8
 """
-    Views of Spittler Application
+    Views of spittler Application
 """
 
 import json
@@ -8,8 +8,8 @@ import os
 from django.http import HttpResponse
 from django.shortcuts import render_to_response
 from django.template import RequestContext
-from TestTask.apps.Spittler.forms.spittle import AddSpittleForm
-from TestTask.apps.Spittler.models import Spittle
+from TestTask.apps.spittler.forms.spittle import AddSpittleForm
+from TestTask.apps.spittler.models import Spittle
 from TestTask.libs.utils import get_protocol, is_valid_image
 from TestTask.libs.utils import handle_uploaded_file
 from TestTask.settings import MEDIA_ROOT

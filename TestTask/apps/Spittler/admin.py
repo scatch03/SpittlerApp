@@ -5,7 +5,7 @@
 """
 from django.contrib import admin
 from django.forms import ModelForm
-from TestTask.apps.Spittler.widgets.SpittleTextarea import SpittleTextarea
+from TestTask.apps.spittler.widgets.SpittleTextarea import SpittleTextarea
 from models import Spittle
 
 

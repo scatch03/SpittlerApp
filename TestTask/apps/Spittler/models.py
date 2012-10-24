@@ -1,6 +1,6 @@
 # coding: utf-8
 """
-    Spittler Application Entities
+    spittler Application Entities
 """
 
 from django.db import models

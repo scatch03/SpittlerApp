@@ -3,7 +3,7 @@
     Context processor for adding current count of spittles
 """
 
-from TestTask.apps.Spittler.models import Spittle
+from TestTask.apps.spittler.models import Spittle
 
 
 def spittle_count(request):

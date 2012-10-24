@@ -4,7 +4,7 @@
 """
 
 from django import template
-from TestTask.apps.Spittler.models import Spittle
+from TestTask.apps.spittler.models import Spittle
 
 register = template.Library()
 

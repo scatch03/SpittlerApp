@@ -1,7 +1,7 @@
 [
     {
         "pk":1,
-        "model":"Spittler.spittle",
+        "model":"spittler.spittle",
         "fields":{
             "_has_image":false,
             "_slug":"20121016220909304",
@@ -11,7 +11,7 @@
     },
     {
         "pk":2,
-        "model":"Spittler.spittle",
+        "model":"spittler.spittle",
         "fields":{
             "_has_image":false,
             "_slug":"20121017202220688",

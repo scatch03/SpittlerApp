@@ -78,7 +78,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'django.contrib.auth.context_processors.auth',
     'django.core.context_processors.media',
     'django.contrib.messages.context_processors.messages',
-    'TestTask.apps.Spittler.processors.count.spittle_count',
+    'TestTask.apps.spittler.processors.count.spittle_count',
 )
 
 INSTALLED_APPS = (
@@ -89,7 +89,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.admin',
-    'TestTask.apps.Spittler',
+    'TestTask.apps.spittler',
 )
 
 LOGGING = {

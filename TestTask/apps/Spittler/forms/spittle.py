@@ -4,7 +4,7 @@
 """
 
 from django import forms
-from TestTask.apps.Spittler.widgets.SpittleTextarea import SpittleTextarea
+from TestTask.apps.spittler.widgets.SpittleTextarea import SpittleTextarea
 
 
 class AddSpittleForm(forms.Form):

@@ -1,7 +1,7 @@
 from django.conf.urls import patterns, include, url
 
 from django.contrib import admin
-from TestTask.apps.Spittler import urls
+from TestTask.apps.spittler import urls
 
 admin.autodiscover()
 

@@ -1,6 +1,6 @@
 # coding: utf-8
 """
-    Spittler Application Custom Textarea widget
+    spittler Application Custom Textarea widget
 """
 
 from django.forms import Textarea

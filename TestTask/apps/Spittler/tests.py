@@ -3,9 +3,10 @@
     Spittler Application Tests
 """
 import os
+from django.core.urlresolvers import reverse
 from django.template import Template, Context
 from django_webtest import WebTest
-from TestTask.apps.Spittler.models import Spittle
+from TestTask.apps.spittler.models import Spittle
 from TestTask.settings import PROJECT_DIR
 
 
@@ -15,7 +16,7 @@ class SpittlerTest(WebTest):
     def testListSpittle(self):
         """ Test spittle listing page functionality """
 
-        response = self.app.get('/')
+        response = self.app.get(reverse('list_spittles'))
 
         self.assertEqual(response.status_code, 200, msg=u'Response is not OK')
         self.assertTemplateUsed(response, u'spittles.html')
@@ -51,7 +52,7 @@ class AddSpittleTestCase(WebTest):
     def testAddSpittle(self):
         """ Test spittle adding functionality """
 
-        page = self.app.get('/add/')
+        page = self.app.get(reverse('add_spittle'))
 
         add_form = page.form
         add_form['subject'] = ''
@@ -73,7 +74,7 @@ class AddSpittleTestCase(WebTest):
 
         assert Spittle.objects.all().count() - self.count == 1
 
-        result_page = self.app.get('/')
+        result_page = self.app.get(reverse('list_spittles'))
 
         assert u'at least 10' not in result_page
         assert u'required' not in result_page
@@ -90,12 +91,12 @@ class CountContextProcessorTest(WebTest):
     def testCountSpittle(self):
         """ Test spittle count functionality """
 
-        response = self.app.get('/')
+        response = self.app.get(reverse('list_spittles'))
 
         self.assertEqual(response.context['spittle_count'], self.count)
         assert self.count in response
 
-        response = self.app.get('/add/')
+        response = self.app.get(reverse('add_spittle'))
 
         self.assertEqual(response.context['spittle_count'], self.count)
         assert self.count in response
@@ -105,7 +106,7 @@ class CountContextProcessorTest(WebTest):
         spittle.message = u'New short spittle!'
         Spittle.save(spittle)
 
-        response = self.app.get('/')
+        response = self.app.get(reverse('list_spittles'))
 
         self.assertEqual(response.context['spittle_count'], self.count + 1)
         assert self.count + 1 in response
@@ -120,7 +121,7 @@ class WidgetTest(WebTest):
     def testDownload(self):
         """ Test widget download functionality """
 
-        response = self.app.get('/download/')
+        response = self.app.get(reverse('download_widget'))
 
         self.assertEqual(response.status_code, 200, msg=u'Download is not OK')
         self.assertTrue(len(response.content) > 0)
@@ -128,12 +129,12 @@ class WidgetTest(WebTest):
     def testWidget(self):
         """ Test widget functionality """
 
-        response = self.app.get('/widget/')
+        response = self.app.get(reverse('get_widget'))
 
         self.assertTrue(self.spittle[0].title in response
                         or self.spittle[1].title in response)
 
-        response = self.app.get('/add/')
+        response = self.app.get(reverse('add_spittle'))
 
         self.assertTrue(self.spittle[0].title in response
                         or self.spittle[1].title in response)
@@ -148,7 +149,7 @@ class RestAPITest(WebTest):
     def testRandomSpittleCall(self):
         """ Test REST get random spittle functionality """
 
-        response = self.app.get('/rest/spittle/')
+        response = self.app.get(reverse('rest_api'))
 
         self.assertEqual(response.status_code, 200, msg=u'REST spittle FAIL')
         self.assertTrue(len(response.content) > 0)
@@ -167,7 +168,7 @@ class ImageAttachmentTest(WebTest):
     def testImageAttached(self):
         """ Testing image to message attachment functionality """
 
-        page = self.app.get('/add/')
+        page = self.app.get(reverse('add_spittle'))
 
         add_form = page.form
         add_form['subject'] = 'Testing image'
@@ -178,14 +179,14 @@ class ImageAttachmentTest(WebTest):
         add_form.submit()
 
         spittle = Spittle.objects.all()[0]
-        result_page = page = self.app.get('/')
+        result_page = page = self.app.get(reverse('list_spittles'))
 
         assert  spittle.identity in result_page
 
     def testNotImageAttached(self):
         """ Testing when attached file is not image functionality """
 
-        page = self.app.get('/add/')
+        page = self.app.get(reverse('add_spittle'))
 
         add_form = page.form
         add_form['subject'] = 'Testing image'
@@ -196,7 +197,7 @@ class ImageAttachmentTest(WebTest):
         add_form.submit()
 
         spittle = Spittle.objects.all()
-        result_page = page = self.app.get('/')
+        result_page = page = self.app.get(reverse('list_spittles'))
 
         assert spittle.count() == 1
         assert  spittle[0].identity not in result_page
