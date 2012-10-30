@@ -1,3 +1,4 @@
 *.pyc
 dev.db
 .idea
+requirements.txt

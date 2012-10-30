@@ -175,7 +175,6 @@ class ImageAttachmentTest(WebTest):
         add_form['message'] = 'image attachment'
         add_form['file'] = [os.path.join(PROJECT_DIR,
                             'media/fbook_logo.png', )]
-
         add_form.submit()
 
         spittle = Spittle.objects.all()[0]
@@ -193,7 +192,6 @@ class ImageAttachmentTest(WebTest):
         add_form['message'] = 'image attachment'
         add_form['file'] = [os.path.join(PROJECT_DIR,
                             'media/not_an_image.txt', )]
-
         add_form.submit()
 
         spittle = Spittle.objects.all()
